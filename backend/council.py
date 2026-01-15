@@ -274,8 +274,8 @@ Title:"""
 
     messages = [{"role": "user", "content": title_prompt}]
 
-    # Use gemini-2.5-flash for title generation (fast and cheap)
-    response = await query_model("google/gemini-2.5-flash", messages, timeout=30.0)
+    # Use gemini-2.5-flash or openai/gpt-5.2 for title generation (fast and cheap)
+    response = await query_model("openai/gpt-5.2", messages, timeout=30.0)
 
     if response is None:
         # Fallback to a generic title
