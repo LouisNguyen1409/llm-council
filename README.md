@@ -10,6 +10,12 @@ In a bit more detail, here is what happens when you submit a query:
 2. **Stage 2: Review**. Each individual LLM is given the responses of the other LLMs. Under the hood, the LLM identities are anonymized so that the LLM can't play favorites when judging their outputs. The LLM is asked to rank them in accuracy and insight.
 3. **Stage 3: Final response**. The designated Chairman of the LLM Council takes all of the model's responses and compiles them into a single final answer that is presented to the user.
 
+## Features
+
+- **Multi-modal support**: Upload images or paste screenshots (Cmd+V / Ctrl+V) to ask questions about visual content
+- **Math rendering**: LaTeX formulas are rendered with KaTeX for beautiful mathematical notation
+- **Responsive UI**: Clean, modern interface with proper image previews and drag-and-drop support
+
 ## Vibe Code Alert
 
 This project was 99% vibe coded as a fun Saturday hack because I wanted to explore and evaluate a number of LLMs side by side in the process of [reading books together with LLMs](https://x.com/karpathy/status/1990577951671509438). It's nice and useful to see multiple responses side by side, and also the cross-opinions of all LLMs on each other's outputs. I'm not going to support it in any way, it's provided here as is for other people's inspiration and I don't intend to improve it. Code is ephemeral now and libraries are over, ask your LLM to change it in whatever way you like.
@@ -21,11 +27,13 @@ This project was 99% vibe coded as a fun Saturday hack because I wanted to explo
 The project uses [uv](https://docs.astral.sh/uv/) for project management.
 
 **Backend:**
+
 ```bash
 uv sync
 ```
 
 **Frontend:**
+
 ```bash
 cd frontend
 npm install
@@ -57,9 +65,12 @@ COUNCIL_MODELS = [
 CHAIRMAN_MODEL = "google/gemini-3-pro-preview"
 ```
 
+**Important**: For multi-modal (image) support, ensure your configured models support vision inputs (e.g., `openai/gpt-4o`, `anthropic/claude-3.5-sonnet`, `google/gemini-pro-vision`).
+
 ## Running the Application
 
 **Option 1: Use the start script**
+
 ```bash
 ./start.sh
 ```
@@ -67,11 +78,13 @@ CHAIRMAN_MODEL = "google/gemini-3-pro-preview"
 **Option 2: Run manually**
 
 Terminal 1 (Backend):
+
 ```bash
 uv run python -m backend.main
 ```
 
 Terminal 2 (Frontend):
+
 ```bash
 cd frontend
 npm run dev
@@ -82,6 +95,6 @@ Then open http://localhost:5173 in your browser.
 ## Tech Stack
 
 - **Backend:** FastAPI (Python 3.10+), async httpx, OpenRouter API
-- **Frontend:** React + Vite, react-markdown for rendering
+- **Frontend:** React + Vite, react-markdown with KaTeX for math rendering
 - **Storage:** JSON files in `data/conversations/`
 - **Package Management:** uv for Python, npm for JavaScript
