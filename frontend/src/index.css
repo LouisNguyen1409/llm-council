@@ -7,6 +7,27 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* --- Glassmorphism light theme tokens --- */
+  --accent: #4a90e2;
+  --accent-strong: #357abd;
+  --accent-soft: rgba(74, 144, 226, 0.12);
+
+  --text: #1f2933;
+  --text-muted: #5a6573;
+  --text-faint: #8a94a3;
+
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-bg-strong: rgba(255, 255, 255, 0.74);
+  --glass-bg-soft: rgba(255, 255, 255, 0.4);
+  --glass-border: rgba(255, 255, 255, 0.65);
+  --glass-hairline: rgba(120, 140, 170, 0.18);
+
+  --blur: 16px;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 8px 32px rgba(31, 41, 51, 0.1);
+  --shadow-sm: 0 2px 10px rgba(31, 41, 51, 0.06);
 }
 
 * {
@@ -19,13 +40,29 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background: #f5f5f5;
+  color: var(--text);
+  /* Soft multi-stop wash so the frosted panels have colour to refract. */
+  background:
+    radial-gradient(900px 600px at 12% 8%, rgba(120, 160, 255, 0.28), transparent 60%),
+    radial-gradient(800px 600px at 88% 18%, rgba(190, 140, 255, 0.24), transparent 60%),
+    radial-gradient(900px 700px at 70% 95%, rgba(120, 235, 200, 0.24), transparent 60%),
+    linear-gradient(135deg, #eef2ff 0%, #f7f0ff 40%, #eafaf6 75%, #fef6ee 100%);
+  background-attachment: fixed;
 }
 
 #root {
   height: 100vh;
   width: 100vw;
   overflow: hidden;
+}
+
+/* Reusable frosted-glass surface. */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--blur)) saturate(150%);
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(150%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow);
 }
 
 /* Global markdown styling */
@@ -70,18 +107,19 @@ body {
 }
 
 .markdown-content pre {
-  background: #f5f5f5;
+  background: rgba(31, 41, 51, 0.05);
   padding: 12px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   overflow-x: auto;
   margin: 0 0 12px 0;
+  border: 1px solid var(--glass-hairline);
 }
 
 .markdown-content code {
-  background: #f5f5f5;
+  background: rgba(31, 41, 51, 0.06);
   padding: 2px 6px;
-  border-radius: 3px;
-  font-family: monospace;
+  border-radius: 5px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.9em;
 }
 
@@ -93,6 +131,50 @@ body {
 .markdown-content blockquote {
   margin: 0 0 12px 0;
   padding-left: 16px;
-  border-left: 4px solid #ddd;
-  color: #666;
+  border-left: 4px solid var(--accent);
+  color: var(--text-muted);
+}
+
+/* GFM tables (enabled via remark-gfm) */
+.markdown-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0 0 12px 0;
+  font-size: 0.95em;
+  display: block;
+  overflow-x: auto;
+}
+
+.markdown-content th,
+.markdown-content td {
+  border: 1px solid var(--glass-hairline);
+  padding: 8px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.markdown-content th {
+  background: rgba(74, 144, 226, 0.1);
+  font-weight: 600;
+}
+
+.markdown-content tr:nth-child(even) td {
+  background: rgba(31, 41, 51, 0.03);
+}
+
+.markdown-content del {
+  opacity: 0.65;
+}
+
+/* Tidy scrollbars to match the frosted look. */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(120, 140, 170, 0.3);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(120, 140, 170, 0.5);
 }

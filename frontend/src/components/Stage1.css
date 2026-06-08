@@ -1,14 +1,17 @@
 .stage {
   margin: 24px 0;
   padding: 20px;
-  background: #fafafa;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0;
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--blur)) saturate(150%);
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(150%);
+  border-radius: var(--radius);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-sm);
 }
 
 .stage-title {
   margin: 0 0 16px 0;
-  color: #333;
+  color: var(--text);
   font-size: 16px;
   font-weight: 600;
 }
@@ -22,44 +25,43 @@
 
 .tab {
   padding: 8px 16px;
-  background: #ffffff;
-  border: 1px solid #d0d0d0;
-  border-radius: 6px 6px 0 0;
-  color: #666;
+  background: var(--glass-bg-soft);
+  border: 1px solid var(--glass-hairline);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  color: var(--text-muted);
   cursor: pointer;
   font-size: 14px;
   transition: all 0.2s;
 }
 
 .tab:hover {
-  background: #f0f0f0;
-  color: #333;
-  border-color: #4a90e2;
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--text);
+  border-color: var(--accent);
 }
 
 .tab.active {
-  background: #ffffff;
-  color: #4a90e2;
-  border-color: #4a90e2;
-  border-bottom-color: #ffffff;
+  background: var(--glass-bg-strong);
+  color: var(--accent);
+  border-color: var(--accent);
   font-weight: 600;
 }
 
 .tab-content {
-  background: #ffffff;
+  background: var(--glass-bg-strong);
   padding: 16px;
-  border-radius: 6px;
-  border: 1px solid #e0e0e0;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--glass-hairline);
 }
 
 .model-name {
-  color: #888;
+  color: var(--text-faint);
   font-size: 12px;
   margin-bottom: 12px;
-  font-family: monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 .response-text {
-  color: #333;
+  color: var(--text);
   line-height: 1.6;
 }

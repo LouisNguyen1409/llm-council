@@ -1,7 +1,9 @@
 .sidebar {
   width: 260px;
-  background: #f8f8f8;
-  border-right: 1px solid #e0e0e0;
+  background: var(--glass-bg-soft);
+  backdrop-filter: blur(var(--blur)) saturate(150%);
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(150%);
+  border-right: 1px solid var(--glass-hairline);
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -9,31 +11,36 @@
 
 .sidebar-header {
   padding: 16px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--glass-hairline);
 }
 
 .sidebar-header h1 {
   font-size: 18px;
   margin: 0 0 12px 0;
-  color: #333;
+  color: var(--text);
+  letter-spacing: -0.01em;
 }
 
 .new-conversation-btn {
   width: 100%;
   padding: 10px;
-  background: #4a90e2;
-  border: 1px solid #4a90e2;
-  border-radius: 6px;
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
   color: #fff;
   cursor: pointer;
   font-size: 14px;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.1s;
   font-weight: 500;
 }
 
 .new-conversation-btn:hover {
-  background: #357abd;
-  border-color: #357abd;
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
+}
+
+.new-conversation-btn:active {
+  transform: translateY(1px);
 }
 
 .conversation-list {
@@ -45,34 +52,37 @@
 .no-conversations {
   padding: 16px;
   text-align: center;
-  color: #999;
+  color: var(--text-faint);
   font-size: 14px;
 }
 
 .conversation-item {
   padding: 12px;
   margin-bottom: 4px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   transition: background 0.2s;
+  border: 1px solid transparent;
 }
 
 .conversation-item:hover {
-  background: #f0f0f0;
+  background: rgba(255, 255, 255, 0.5);
 }
 
 .conversation-item.active {
-  background: #e8f0fe;
-  border: 1px solid #4a90e2;
+  background: var(--glass-bg-strong);
+  border: 1px solid rgba(74, 144, 226, 0.5);
+  box-shadow: var(--shadow-sm);
 }
 
 .conversation-title {
-  color: #333;
+  color: var(--text);
   font-size: 14px;
   margin-bottom: 4px;
+  font-weight: 500;
 }
 
 .conversation-meta {
-  color: #999;
+  color: var(--text-faint);
   font-size: 12px;
 }

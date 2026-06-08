@@ -2,7 +2,9 @@
 
 ![llmcouncil](header.jpg)
 
-The idea of this repo is that instead of asking a question to your favorite LLM provider (e.g. OpenAI GPT 5.1, Google Gemini 3.0 Pro, Anthropic Claude Sonnet 4.5, xAI Grok 4, eg.c), you can group them into your "LLM Council". This repo is a simple, local web app that essentially looks like ChatGPT except it uses OpenRouter to send your query to multiple LLMs, it then asks them to review and rank each other's work, and finally a Chairman LLM produces the final response.
+The idea of this repo is that instead of asking a question to your favorite LLM provider (e.g. OpenAI GPT-5.x, Google Gemini 3 Pro, Anthropic Claude Opus), you can group them into your "LLM Council". This repo is a simple, local web app that essentially looks like ChatGPT except it fans your query out to multiple LLMs, asks them to review and rank each other's work, and finally a Chairman LLM produces the final response.
+
+This build drives your **locally-installed agent CLIs** (`claude`, `codex`, `gemini`, `agy`) in headless mode and reuses each one's own login — so there's **no API key and no OpenRouter**. It also supports **multi-turn chat**, **image/PDF attachments** (upload, drag-drop, or paste), and **live model selection** per council member.
 
 In a bit more detail, here is what happens when you submit a query:
 
@@ -32,30 +34,33 @@ npm install
 cd ..
 ```
 
-### 2. Configure API Key
+### 2. Log in to the agent CLIs (no API key needed)
 
-Create a `.env` file in the project root:
+Instead of an OpenRouter API key, this build drives **locally-installed agent CLIs**
+and reuses each one's own login/subscription. Install and log in to the ones you want
+on the council:
 
-```bash
-OPENROUTER_API_KEY=sk-or-v1-...
-```
+| Council member | CLI | Log in with |
+|----------------|-----|-------------|
+| Claude | [`claude`](https://code.claude.com) | `claude` (Pro/Max account) |
+| GPT | [`codex`](https://developers.openai.com/codex/cli) | `codex login` (ChatGPT account) |
+| Gemini | [`gemini`](https://geminicli.com) | `gemini` (Google account) |
+| Antigravity | `agy` | sign in to Antigravity |
 
-Get your API key at [openrouter.ai](https://openrouter.ai/). Make sure to purchase the credits you need, or sign up for automatic top up.
+You don't need all four — the app shows which are installed (⚙ Council panel), and any
+member that isn't logged in simply degrades gracefully. The backend never sees your
+credentials; it only runs the CLIs, which authenticate themselves.
 
-### 3. Configure Models (Optional)
+> Note: using consumer subscriptions in third-party tools may sit outside each vendor's
+> intended use. You're driving your own logged-in CLIs on your own machine — review the
+> respective terms and decide what you're comfortable with.
 
-Edit `backend/config.py` to customize the council:
+### 3. Configure the council (optional)
 
-```python
-COUNCIL_MODELS = [
-    "openai/gpt-5.1",
-    "google/gemini-3-pro-preview",
-    "anthropic/claude-sonnet-4.5",
-    "x-ai/grok-4",
-]
-
-CHAIRMAN_MODEL = "google/gemini-3-pro-preview"
-```
+Pick CLIs + models live from the **⚙ Council** panel in the UI (saved in your browser).
+Models are dynamic and auto-update — leave a model blank for `(default)` and each CLI uses
+its own latest (Claude → Opus, Codex → GPT-5.x, Gemini → latest Pro, Antigravity → latest
+Gemini Flash). Defaults live in `backend/config.py` (`COUNCIL_AGENTS` / `CHAIRMAN_AGENT`).
 
 ## Running the Application
 
@@ -81,7 +86,7 @@ Then open http://localhost:5173 in your browser.
 
 ## Tech Stack
 
-- **Backend:** FastAPI (Python 3.10+), async httpx, OpenRouter API
-- **Frontend:** React + Vite, react-markdown for rendering
-- **Storage:** JSON files in `data/conversations/`
+- **Backend:** FastAPI (Python 3.10+), async subprocess orchestration of agent CLIs (`claude`/`codex`/`gemini`/`agy`)
+- **Frontend:** React + Vite, react-markdown, light glassmorphism theme
+- **Storage:** JSON files in `data/conversations/`, attachments in `data/attachments/`
 - **Package Management:** uv for Python, npm for JavaScript
